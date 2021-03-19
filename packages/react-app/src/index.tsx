@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+<<<<<<< HEAD
 
 import Root from './Root';
 import reportWebVitals from './reportWebVitals';
@@ -9,6 +10,15 @@ require('typeface-roboto-mono');
 ReactDOM.render(
   <React.StrictMode>
     <Root />
+=======
+import './index.css';
+import App from './App';
+import reportWebVitals from './reportWebVitals';
+
+ReactDOM.render(
+  <React.StrictMode>
+    <App />
+>>>>>>> front setup
   </React.StrictMode>,
   document.getElementById('root')
 );
