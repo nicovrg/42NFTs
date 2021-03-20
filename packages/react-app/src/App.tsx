@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
-import { Header, Home } from 'components';
-import { Flex } from 'rebass';
+import { Flex } from 'rimble-ui';
+
 import { useWeb3React } from '@web3-react/core';
-import { useEagerConnect, useInactiveListener } from 'hooks';
 import { InjectedConnector } from '@web3-react/injected-connector';
+
+import { useEagerConnect, useInactiveListener } from 'hooks';
+import { Header, Home } from 'components';
 
 const App = () => {
   const { connector } = useWeb3React();
