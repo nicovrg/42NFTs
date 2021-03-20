@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 import Root from './Root';
 import reportWebVitals from './reportWebVitals';
@@ -16,12 +17,19 @@ import './index.css';
 =======
 >>>>>>> Add web3 connection
 import App from './App';
+=======
+import Root from './Root';
+>>>>>>> switch to web3react
 import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
   <React.StrictMode>
+<<<<<<< HEAD
     <App />
 >>>>>>> front setup
+=======
+    <Root />
+>>>>>>> switch to web3react
   </React.StrictMode>,
   document.getElementById('root')
 );
