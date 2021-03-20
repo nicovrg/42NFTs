@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Flex, Loader, Heading } from 'rimble-ui';
 
@@ -42,5 +43,10 @@ const Home = () => {
     </Flex>
   );
 };
+=======
+import React from 'react';
+
+const Home = () => <p>Hello World</p>;
+>>>>>>> Add web3 connection
 
 export default Home;

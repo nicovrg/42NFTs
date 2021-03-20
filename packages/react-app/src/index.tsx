@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 import Root from './Root';
 import reportWebVitals from './reportWebVitals';
@@ -12,6 +13,8 @@ ReactDOM.render(
     <Root />
 =======
 import './index.css';
+=======
+>>>>>>> Add web3 connection
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
