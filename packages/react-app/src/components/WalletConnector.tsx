@@ -23,12 +23,8 @@ const WalletConnector = ({
           <Flex flexDirection="column">
             <Balance account={account} />
           </Flex>
-          <Flex width="400px">
-            <EthAddress
-              mx="20px"
-              address={`${account.substring(0, 6)}...${account.substring(account.length - 4)}`}
-              textLabels
-            />
+          <Flex width="270px">
+            <EthAddress mx="20px" address={account} />
           </Flex>
           <Button onClick={() => deactivate()}>Disconnect</Button>
         </>

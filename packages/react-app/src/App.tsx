@@ -25,7 +25,7 @@ const App = () => {
 
   return (
     <BrowserRouter>
-      <Flex flexDirection="column">
+      <Flex flexDirection="column" minHeight="100vh">
         <Header setActivatingConnector={setActivatingConnector} />
         <Flex flex="1">
           <Switch>
