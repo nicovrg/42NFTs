@@ -24,6 +24,7 @@ const WalletConnector = ({
             <Balance account={account} />
           </Flex>
 <<<<<<< HEAD
+<<<<<<< HEAD
           <Flex width="270px">
             <EthAddress mx="20px" address={account} />
 =======
@@ -34,6 +35,10 @@ const WalletConnector = ({
               textLabels
             />
 >>>>>>> add header ui
+=======
+          <Flex width="270px">
+            <EthAddress mx="20px" address={account} />
+>>>>>>> add OpenSea feed
           </Flex>
           <Button onClick={() => deactivate()}>Disconnect</Button>
         </>

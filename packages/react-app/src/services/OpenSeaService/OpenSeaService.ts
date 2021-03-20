@@ -1,5 +1,8 @@
 import axios from 'axios';
+<<<<<<< HEAD
 
+=======
+>>>>>>> add OpenSea feed
 import { ITEMS_LIMIT, OPEN_SEA_API } from './config';
 
 const OpenSeaService = () => {
