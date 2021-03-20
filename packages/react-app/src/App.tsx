@@ -1,26 +1,34 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Header, Home } from 'components';
+import { Flex } from 'rebass';
+import { Web3ReactProvider } from '@web3-react/core';
+import { getLibrary } from 'config';
+import { useEagerConnect, useInactiveListener } from 'hooks';
 
-function App() {
+const App = () => {
+  const [activatingConnector, setActivatingConnector] = useState<boolean>(false);
+
+  const triedEager = useEagerConnect();
+
+  useInactiveListener(!triedEager || !!activatingConnector);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <Web3ReactProvider getLibrary={getLibrary}>
+        <Flex flexDirection="column">
+          <Header />
+          <Flex flex="1">
+            <Router>
+              <Switch>
+                <Route exact path={'/'} component={Home} />
+              </Switch>
+            </Router>
+          </Flex>
+        </Flex>
+      </Web3ReactProvider>
+    </>
   );
-}
+};
 
 export default App;
