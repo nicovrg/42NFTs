@@ -54,6 +54,7 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Flex, Loader, Heading } from 'rimble-ui';
 
 import { OpenSeaService } from 'services';
+
 import Assets from './Assets';
 
 const Home = () => {
