@@ -1,15 +1,6 @@
-const { ethers } = require("hardhat");
-const { use, expect } = require("chai");
-const { solidity } = require("ethereum-waffle");
-
-// const fs = require("fs");
-// const ipfsAPI = require('ipfs-http-client');
-// const ipfs = ipfsAPI({host: 'ipfs.infura.io', port: '5001', protocol: 'https' })
-// const uploadedbadge = await ipfs.add(ipfsAPI.urlSource("https://www.freeiconspng.com/uploads/badge-icon-png-22.png"));
-// const uploadedbadge = await ipfs.add(JSON.stringify(badge));
-// https://vanity-eth.tk
-
-use(solidity);
+const BadgeMinter = artifacts.require("BadgeMinter");
+const truffleAssert = require('truffle-assertions');
+const Web3 = require("web3");
 
 const zeroAddress = "0x0000000000000000000000000000000000000000"
 const erc721ABI = [
@@ -625,8 +616,8 @@ const erc721ABI = [
   },
 ];
 
-describe("My Dapp", function () {
-  let myContract;
+contract('BadgeMinter', async (accounts) => {
+  let badgeMinterInstance;
   const mainAddress = "0xeD119E4B9a3f4Ab8AAe2DC2D2FdF9515d4c09325"
   const deployerAddress = "0xf31b20dbeca414692b0a6c39ce563d938156a846"
   const creatorAddress = [
@@ -641,75 +632,47 @@ describe("My Dapp", function () {
     "0x00022C6dAb0Be6420704dc45060B5daa088713FE", 
     "0x0002C73B0Bee50D577a38890AB4eb17c0CF37842"
   ];
+  
+  // const creatorAddress0 = "0x797761C1e415BB28dF3Cb730DF1613BD9b0228Cb";
+  // const creatorAddress1 = "0x1c3077Cf0c34A41EF4FA2Ca4078dA44AD39a41b9";
 
-  describe("BadgeMinter", function () {
+  describe("BadgeMinter Tests", function () {
 
-    it("Should deploy BadgeMinter", async function () {
-      const BadgeMinter = await ethers.getContractFactory("BadgeMinter");
-      myContract =   await BadgeMinter.deploy();
+    it('contract was deployed successfully', async () => {
+      badgeMinterInstance = await BadgeMinter.deployed();
     });
 
-    // WIP
-    it('balance is zero for new user', async function () {
-      const BadgeMinter = await ethers.getContractFactory("BadgeMinter");
-      const balance = await BadgeMinter.callStatic.balanceOf("0xeD119E4B9a3f4Ab8AAe2DC2D2FdF9515d4c09325");
-      assert.equal(balance.toNumber(), 0);
+    describe("BadgeMinter mintBadge function test", function () {
+    
+        // it("mintBadge fail if wrong badgeType", async() => {
+        //   await truffleAssert.fails(badgeMinterInstance.mintBadge(creatorAddress[1], 3), "test mint badge with badgeType == 3");
+        //   await truffleAssert.fails(badgeMinterInstance.mintBadge(creatorAddress[1], -1), "test mint badge with badgeType == -1");
+        // });
+
+        // it("mint with right badgeType", async() => {
+        //   await truffleAssert.passes(badgeMinterInstance.mintBadge(creatorAddress[1], 0), "test mint badge with badgeType == 0");
+        //   await truffleAssert.passes(badgeMinterInstance.mintBadge(creatorAddress[1], 1), "test mint badge with badgeType == 1");  
+        // });
+    
+        it("mintBadge create badge", async() => {
+          await badgeMinterInstance.mintBadge(creatorAddress[1], 1);
+
+          console.log("================== await ================== \n");
+          console.log(creatorAddress[1]);
+          const awaited = await badgeMinterInstance.balanceOf(creatorAddress[1]);
+          console.log(awaited);
+
+        });
+
+
+
+
+
+
+
+
+
+
     });
-    
-    // WIP
-    it("Top Creators received their price", async function() {
-      const BadgeMinter = await ethers.getContractFactory("BadgeMinter");
-      console.log("deployerAddress = ", deployerAddress);
-      console.log("creatorAddress = ", creatorAddress);
-      // await BadgeMinter.endSeason(creatorAddress);
-      //connect user and contract?
-      expect(BadgeMinter.balanceOf(creatorAddress[0])).to.equal(0); 
-    })
-
-
-    
-    // it("Top Tipper received their price", async function() {
-    // })
-
-
-    // it("Top Subscribers received their price", async function() {
-      
-    // })
-
-    // it("all season participants received their badges", async function() {
-      
-    // })
-
-
-
-
-    // it("Subscribers who reimburse their battle pass reiceived their badges", async function() {
-      
-    // })
-
-    // it("Subscribers who made money reiceived their unique badges with name and amount", async function() {
-      
-    // })
-
   });
-
-  //   describe("setPurpose()", function () {
-  //     it("Should be able to set a new purpose", async function () {
-  //       const newPurpose = "Test Purpose";
-
-  //       await myContract.setPurpose(newPurpose);
-  //       expect(await myContract.purpose()).to.equal(newPurpose);
-  //     });
-  //   });
-  // });
-
 });
-
-// minter badge top artists (1, 2, 3 - top10)
-// minter badge top suscribers (1, 2, 3 - top10)
-
-// minter badge 100th battlepass buyers of the season
-// minter badge suscribers participants
-
-// minter badge suscribers who reimburse the battle pass
-// minter badge suscribers who gain money with the money amount

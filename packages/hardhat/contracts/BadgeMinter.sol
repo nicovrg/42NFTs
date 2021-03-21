@@ -35,7 +35,7 @@ contract BadgeMinter is ERC721, Ownable {
     _setBaseURI("https://ipfs.io/ipfs/");
   }
 
-  function setBadgeInformation() public returns (bool) {
+  function setBadgeInformation() internal {
     badgeMap[BadgeType.First_Creator].name = "1st Creator";
     badgeMap[BadgeType.First_Creator].image = "https://www.freeiconspng.com/uploads/badge-icon-png-22.png";
     badgeMap[BadgeType.First_Creator].description = "You're the first creator of the season 1!! Congrats :)";
@@ -52,7 +52,7 @@ contract BadgeMinter is ERC721, Ownable {
     badgeMap[BadgeType.Third_Creator].tokenURI = "https://ipfs.io/ipfs/QmZnQnWQSZwWyC3vW91pk1FEq8K7JSDGFwjaBTG8pKReiK/";
   }
 
-  function mintBadge(address to, BadgeType badgeId) public returns (uint256) {
+  function mintBadge(address to, BadgeType badgeId) internal returns (uint256) {
       _tokenIds.increment();
       uint256 id = _tokenIds.current();
 
@@ -64,16 +64,15 @@ contract BadgeMinter is ERC721, Ownable {
       return id;
   }
 
-  function mintTopCreators(address[] memory topCreator) public returns (uint256) {
+  function mintTopCreators(address[] memory topCreator) internal {
     mintBadge(topCreator[2], BadgeType.First_Creator);
     mintBadge(topCreator[1], BadgeType.Second_Creator);
     mintBadge(topCreator[0], BadgeType.Third_Creator);
   }
 
-  function endSeason(address[] memory topCreator) public returns (bool) {
+  function endSeason(address[] memory topCreator) public {
     setBadgeInformation();
     mintTopCreators(topCreator);
-    return true;
   }
 }
 
