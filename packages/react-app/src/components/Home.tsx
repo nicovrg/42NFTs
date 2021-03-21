@@ -42,3 +42,5 @@ const Home = () => {
     </Flex>
   );
 };
+
+export default Home;
