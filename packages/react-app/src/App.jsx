@@ -41,7 +41,7 @@ const ipfs = ipfsAPI({host: 'ipfs.infura.io', port: '5001', protocol: 'https' })
 
 
 /// 📡 What chain are your contracts deployed to?
-const targetNetwork = NETWORKS['localhost']; // <------- select your target frontend network (localhost, rinkeby, xdai, mainnet)
+const targetNetwork = NETWORKS['rinkeby']; // <------- select your target frontend network (localhost, rinkeby, xdai, mainnet)
 
 // 😬 Sorry for all the console logging
 const DEBUG = true
@@ -160,30 +160,30 @@ function App(props) {
 
 
   // keep track of a variable from the contract in the local React state:
-  const balance = useContractReader(readContracts,"YourCollectible", "balanceOf", [ address ])
+  const balance = useContractReader(readContracts,"BadgeMinter", "balanceOf", [ address ])
   console.log("🤗 balance:",balance)
 
   //📟 Listen for broadcast events
-  const transferEvents = useEventListener(readContracts, "YourCollectible", "Transfer", localProvider, 1);
+  const transferEvents = useEventListener(readContracts, "BadgeMinter", "Transfer", localProvider, 1);
   console.log("📟 Transfer events:",transferEvents)
 
 
 
   //
-  // 🧠 This effect will update yourCollectibles by polling when your balance changes
+  // 🧠 This effect will update BadgeMinters by polling when your balance changes
   //
   const yourBalance = balance && balance.toNumber && balance.toNumber()
-  const [ yourCollectibles, setYourCollectibles ] = useState()
+  const [ BadgeMinters, setBadgeMinters ] = useState()
 
   useEffect(()=>{
-    const updateYourCollectibles = async () => {
+    const updateBadgeMinters = async () => {
       let collectibleUpdate = []
       for(let tokenIndex=0;tokenIndex<balance;tokenIndex++){
         try{
           console.log("GEtting token index",tokenIndex)
-          const tokenId = await readContracts.YourCollectible.tokenOfOwnerByIndex(address, tokenIndex)
+          const tokenId = await readContracts.BadgeMinter.tokenOfOwnerByIndex(address, tokenIndex)
           console.log("tokenId",tokenId)
-          const tokenURI = await readContracts.YourCollectible.tokenURI(tokenId)
+          const tokenURI = await readContracts.BadgeMinter.tokenURI(tokenId)
           console.log("tokenURI",tokenURI)
 
           const ipfsHash =  tokenURI.replace("https://ipfs.io/ipfs/","")
@@ -199,9 +199,9 @@ function App(props) {
 
         }catch(e){console.log(e)}
       }
-      setYourCollectibles(collectibleUpdate)
+      setBadgeMinters(collectibleUpdate)
     }
-    updateYourCollectibles()
+    updateBadgeMinters()
   },[ address, yourBalance ])
 
   /*
@@ -291,7 +291,7 @@ function App(props) {
 
         <Menu style={{ textAlign:"center" }} selectedKeys={[route]} mode="horizontal">
           <Menu.Item key="/">
-            <Link onClick={()=>{setRoute("/")}} to="/">YourCollectibles</Link>
+            <Link onClick={()=>{setRoute("/")}} to="/">BadgeMinters</Link>
           </Menu.Item>
           <Menu.Item key="/transfers">
             <Link onClick={()=>{setRoute("/transfers")}} to="/transfers">Transfers</Link>
@@ -318,7 +318,7 @@ function App(props) {
             <div style={{ width:640, margin: "auto", marginTop:32, paddingBottom:32 }}>
               <List
                 bordered
-                dataSource={yourCollectibles}
+                dataSource={BadgeMinters}
                 renderItem={(item) => {
                   const id = item.id.toNumber()
                   return (
@@ -352,7 +352,7 @@ function App(props) {
                         />
                         <Button onClick={()=>{
                           console.log("writeContracts",writeContracts)
-                          tx( writeContracts.YourCollectible.transferFrom(address, transferToAddresses[id], id) )
+                          tx( writeContracts.BadgeMinter.transferFrom(address, transferToAddresses[id], id) )
                         }}>
                           Transfer
                         </Button>
@@ -454,7 +454,7 @@ function App(props) {
           </Route>
           <Route path="/debugcontracts">
               <Contract
-                name="YourCollectible"
+                name="BadgeMinter"
                 signer={userProvider.getSigner()}
                 provider={localProvider}
                 address={address}
