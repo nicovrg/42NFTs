@@ -5,7 +5,7 @@ module.exports = {
   networks: {
     rinkeby: {
       provider: function() {
-        let wallet =  new HDWalletProvider(mnemonic, "https://rinkeby.infura.io/v3/2eb7aa2a80a04069af80b33d1b9f82b2");
+        let wallet =  new HDWalletProvider(mnemonic, "https://rinkeby.infura.io/v3/1f177a33d93c4be3b43a1886d61ad9b4");
         return wallet;
       },
       skipDryRun: true,
