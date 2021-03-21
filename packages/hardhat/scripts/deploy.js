@@ -10,7 +10,7 @@ const main = async () => {
   console.log("\n\n 📡 Deploying...\n");
 
 
-  const yourCollectible = await deploy("YourCollectible") // <-- add in constructor args like line 19 vvvv
+  const BadgeMinter = await deploy("BadgeMinter") // <-- add in constructor args like line 19 vvvv
 
   //const yourContract = await ethers.getContractAt('YourContract', "0xaAC799eC2d00C013f1F11c37E654e59B0429DF6A") //<-- if you want to instantiate a version of a contract at a specific address!
   //const secondContract = await deploy("SecondContract")
@@ -72,6 +72,8 @@ const main = async () => {
 
 const deploy = async (contractName, _args = [], overrides = {}, libraries = {}) => {
   console.log(` 🛰  Deploying: ${contractName}`);
+  // console.log("targetNetwork = ", targetNetwork);
+  console.log("_args = ", _args);
 
   const contractArgs = _args || [];
   const contractArtifacts = await ethers.getContractFactory(contractName,{libraries: libraries});
@@ -80,7 +82,7 @@ const deploy = async (contractName, _args = [], overrides = {}, libraries = {}) 
   fs.writeFileSync(`artifacts/${contractName}.address`, deployed.address);
 
   let extraGasInfo = ""
-  if(deployed&&deployed.deployTransaction){
+  if(deployed && deployed.deployTransaction){
     const gasUsed = deployed.deployTransaction.gasLimit.mul(deployed.deployTransaction.gasPrice)
     extraGasInfo = `${utils.formatEther(gasUsed)} ETH, tx hash ${deployed.deployTransaction.hash}`
   }
@@ -154,7 +156,6 @@ const tenderlyVerify = async ({contractName, contractAddress}) => {
 
   let tenderlyNetworks = ["kovan","goerli","mainnet","rinkeby","ropsten","matic","mumbai","xDai","POA"]
   let targetNetwork = process.env.HARDHAT_NETWORK || config.defaultNetwork
-
   if(tenderlyNetworks.includes(targetNetwork)) {
     console.log(chalk.blue(` 📁 Attempting tenderly verification of ${contractName} on ${targetNetwork}`))
 
