@@ -51,7 +51,7 @@ module.exports = {
       */
     },
     rinkeby: {
-      url: "https://rinkeby.infura.io/v3/6d46fd3b41af404198f83caa5d426c87", //<---- YOUR INFURA ID! (or it won't work)
+      url: "https://rinkeby.infura.io/v3/2eb7aa2a80a04069af80b33d1b9f82b2", //<---- YOUR INFURA ID! (or it won't work)
       accounts: {
         mnemonic: mnemonic(),
       },
