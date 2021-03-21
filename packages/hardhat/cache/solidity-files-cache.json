@@ -498,7 +498,7 @@
         "^0.6.0"
       ],
       "artifacts": [
-        "Counters"
+        "Tip"
       ]
     },
     "/home/nico/Code/ongoing/42NFTs/packages/hardhat/contracts/BadgeMinter.sol": {
