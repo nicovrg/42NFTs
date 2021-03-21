@@ -7,3 +7,4 @@ interface CustomWindow extends Window {
 }
 
 declare module 'rimble-ui';
+declare module '@rimble/network-indicator';

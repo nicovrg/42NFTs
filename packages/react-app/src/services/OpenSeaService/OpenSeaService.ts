@@ -1,5 +1,4 @@
 import axios from 'axios';
-
 import { ITEMS_LIMIT, OPEN_SEA_API } from './config';
 
 const OpenSeaService = () => {

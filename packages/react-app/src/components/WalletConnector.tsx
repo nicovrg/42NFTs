@@ -1,5 +1,5 @@
 import React, { Dispatch, SetStateAction } from 'react';
-
+import NetworkIndicator from '@rimble/network-indicator';
 import { Flex, MetaMaskButton, EthAddress, Button } from 'rimble-ui';
 
 import { useWeb3React } from '@web3-react/core';
@@ -15,19 +15,22 @@ const WalletConnector = ({
 }: {
   setActivatingConnector: Dispatch<SetStateAction<InjectedConnector | undefined>>;
 }) => {
-  const { activate, account, connector, active, deactivate } = useWeb3React<Web3Provider>();
+  const { activate, account, connector, active, deactivate, chainId } = useWeb3React<
+    Web3Provider
+  >();
   return (
     <Flex>
       {active && account ? (
-        <>
-          <Flex flexDirection="column">
+        <React.Fragment>
+          <NetworkIndicator currentNetwork={chainId} />
+          <Flex flexDirection="column" ml="20px">
             <Balance account={account} />
           </Flex>
           <Flex width="270px">
             <EthAddress mx="20px" address={account} />
           </Flex>
           <Button onClick={() => deactivate()}>Disconnect</Button>
-        </>
+        </React.Fragment>
       ) : (
         <MetaMaskButton
           onClick={() => {

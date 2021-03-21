@@ -5,6 +5,7 @@ import { InjectedConnector } from '@web3-react/injected-connector';
 import WalletConnector from 'components/WalletConnector';
 
 import logo from 'assets/logo.svg';
+import BuyButton from 'components/BuyButton';
 
 const Header = ({
   setActivatingConnector
@@ -13,8 +14,9 @@ const Header = ({
 }) => {
   return (
     <Flex flexDirection="row" justifyContent="space-between" p="10px">
-      <Flex justifyContent="space-evenly">
-        <Image src={logo} alt="logo" />
+      <Flex>
+        <Image src={logo} alt="logo" mr="40px" />
+        <BuyButton />
       </Flex>
       <WalletConnector setActivatingConnector={setActivatingConnector} />
     </Flex>

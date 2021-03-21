@@ -15,8 +15,8 @@ const Home = () => {
     async (offset: number) => {
       try {
         const { assets: newAssets } = await OpenSeaService.getAssets(offset);
-        console.log(assets);
-        setAssets([...assets, ...newAssets]);
+        console.log(newAssets);
+        setAssets(newAssets);
         setIsFetching(false);
       } catch (err) {
         setIsFetching(false);
