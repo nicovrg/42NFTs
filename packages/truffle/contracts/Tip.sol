@@ -2,7 +2,11 @@ pragma solidity 0.6.7;
 pragma experimental ABIEncoderV2;
 //SPDX-License-Identifier: MIT
 
+contract BadgeMinter { function endSeason(address[] memory) public returns(bool) {} }
+
 contract Tip {
+  address public badgeMinterAddress;
+  bool public badgeMinted;
   uint public subscriptionPrice;
   uint public maxSubscription;
   uint public endOfPool;
@@ -37,59 +41,43 @@ contract Tip {
 
   event Receive(uint value);
 
-  modifier checkSubPrice {
-    require(msg.value >= subscriptionPrice, "Not enough money!");
-    _;
-  }
-
-  modifier checkNotSubscribed {
-    require(subscribers[msg.sender].alreadySubscribed == false, "Already subscribed");
-    _;
-  }
-
-  constructor(uint _subscriptionPrice, uint _maxSubscription, uint _delay) public {
+  constructor(uint _subscriptionPrice, uint _maxSubscription, uint _delay, address _badgeMinterAddress) public {
     subscriptionPrice = _subscriptionPrice;
     maxSubscription = _maxSubscription;
     endOfPool = now + _delay;
-
+    badgeMinterAddress = _badgeMinterAddress;
   }
 
-  receive() external payable checkSubPrice checkNotSubscribed {
+  receive() external payable {
+    require(msg.value >= subscriptionPrice, "Not enough money!");
+    require(subscribers[msg.sender].alreadySubscribed == false, "Already subscribed");
     subscribers[msg.sender].alreadySubscribed = true;
     globalBalance += msg.value;
     emit Receive(msg.value);
   }
 
   function checkAndSetTopArtists(uint _balance, address _artistAddress) internal {
-    if (_artistAddress == thirdArtist.artist) {
-      thirdArtist.balance = _balance;
-    } else if (_artistAddress == secondArtist.artist) {
-      secondArtist.balance = _balance;
-    } else if (_artistAddress == firstArtist.artist) {
-      firstArtist.balance = _balance;
-    } else {
-      if (_balance > thirdArtist.balance) {
-        if (_balance > secondArtist.balance) {
-          if (_balance > firstArtist.balance) {
-            TopArtist memory tmpFirstArtist;
-            TopArtist memory tmpSecondArtist;
-            tmpFirstArtist = firstArtist;
-            tmpSecondArtist = secondArtist;
-            firstArtist.balance = _balance;
-            firstArtist.artist = _artistAddress;
-            secondArtist = tmpFirstArtist;
-            thirdArtist = tmpSecondArtist;          
-          } else {
-            TopArtist memory tmpSecondArtist;
-            tmpSecondArtist = secondArtist;
-            secondArtist.balance = _balance;
-            secondArtist.artist = _artistAddress;
-            thirdArtist = tmpSecondArtist;
-          }
+    if (_balance > thirdArtist.balance) {
+      if (_balance > secondArtist.balance) {
+        if (_balance > firstArtist.balance) {
+          TopArtist memory tmpFirstArtist;
+          TopArtist memory tmpSecondArtist;
+          tmpFirstArtist = firstArtist;
+          tmpSecondArtist = secondArtist;
+          firstArtist.balance = _balance;
+          firstArtist.artist = _artistAddress;
+          secondArtist = tmpFirstArtist;
+          thirdArtist = tmpSecondArtist;          
         } else {
-          thirdArtist.balance = _balance;
-          thirdArtist.artist = _artistAddress;
+          TopArtist memory tmpSecondArtist;
+          tmpSecondArtist = secondArtist;
+          secondArtist.balance = _balance;
+          secondArtist.artist = _artistAddress;
+          thirdArtist = tmpSecondArtist;
         }
+      } else {
+        thirdArtist.balance = _balance;
+        thirdArtist.artist = _artistAddress;
       }
     }
   }
@@ -135,5 +123,17 @@ contract Tip {
     require(now > endOfPool, "Pool isn't finished yet!");
     msg.sender.transfer(artists[msg.sender].balance);
     artists[msg.sender].balance = 0;
+  }
+
+  function endOfSeason() public {
+    require(badgeMinted == false, "The badge have already been minted!");
+    require(now > endOfPool, "Pool isn't finished yet!");
+    badgeMinted = true;
+    BadgeMinter bm = BadgeMinter(badgeMinterAddress);
+    address[] storage ret;
+    ret.push(thirdArtist.artist);
+    ret.push(secondArtist.artist);
+    ret.push(firstArtist.artist);
+    bm.endSeason(ret);
   }
 }
